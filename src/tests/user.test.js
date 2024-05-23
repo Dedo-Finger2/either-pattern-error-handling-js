@@ -1,61 +1,68 @@
 import { describe, it, expect } from "vitest";
 import { User } from "./../core/domain/entities/user.js";
+import { Name } from "../core/domain/value-objects/user/name.js";
+import { Email } from "../core/domain/value-objects/user/email.js";
+import { Password } from "../core/domain/value-objects/user/password.js";
 
-/** @typedef {({ name: string, email: string, password: string })} UserDto  */
+/** @typedef {({ name: string, email: Email, password: string })} UserDto  */
 
 describe("User Entity Class", () => {
   it("should create a new user when valid data is passed", () => {
     /** @type {UserDto} */
     const userDto = {
-      name: "fake_name",
-      email: "valid_fake@email.com",
-      password: "fake_valid_password",
+      name: Name.create({ name: "fake_valid_name" }),
+      email: Email.create({ email: "fakevalid@email.com" }),
+      password: Password.create({ password: "fake_valid_password" }),
     };
+    const sut = User.build(userDto);
 
-    const sut = new User(userDto);
-
+    expect(userDto.email.isRight()).toBe(true);
+    expect(userDto.name.isRight()).toBe(true);
+    expect(userDto.password.isRight()).toBe(true);
     expect(sut).toBeInstanceOf(User);
-    expect(sut.name).toBe(userDto.name);
-    expect(sut.email).toBe(userDto.email);
-    expect(sut.password).toBe(userDto.password);
+    expect(sut.name).toBe(userDto.name.value);
+    expect(sut.email).toBe(userDto.email.value);
+    expect(sut.password).toBe(userDto.password.value);
   });
 
   it("should throw when creating a new user with invalid name", () => {
     /** @type {UserDto} */
     const userDto = {
-      name: "a",
-      email: "valid_fake@email.com",
-      password: "fake_valid_password",
+      name: Name.create({ name: "a" }),
+      email: Email.create({ email: "fakevalid@email.com" }),
+      password: Password.create({ password: "fake_valid_password" }),
     };
+    const sut = User.build(userDto);
 
-    const sut = () => new User(userDto);
-
-    expect(sut).toThrow("Name must have at least 3 characters.");
+    expect(sut.isLeft()).toBe(true);
+    expect(userDto.name.value).toBe("Name must have at least 3 characters.");
   });
 
   it("should throw when creating a new user with invalid email", () => {
     /** @type {UserDto} */
     const userDto = {
-      name: "fake_valid_name",
-      email: "invalid_fake_email",
-      password: "fake_valid_password",
+      name: Name.create({ name: "fake_valid_name" }),
+      email: Email.create({ email: "fakevalidemail.com" }),
+      password: Password.create({ password: "fake_valid_password" }),
     };
+    const sut = User.build(userDto);
 
-    const sut = () => new User(userDto);
-
-    expect(sut).toThrow("Invalid email");
+    expect(sut.isLeft()).toBe(true);
+    expect(userDto.email.value).toBe("Invalid Email.");
   });
 
   it("should throw when creating a new user with invalid password", () => {
     /** @type {UserDto} */
     const userDto = {
-      name: "fake_valid_name",
-      email: "valid_fake@email.com",
-      password: "123",
+      name: Name.create({ name: "fake_valid_name" }),
+      email: Email.create({ email: "fakevalid@email.com" }),
+      password: Password.create({ password: "123" }),
     };
+    const sut = User.build(userDto);
 
-    const sut = () => new User(userDto);
-
-    expect(sut).toThrow("Password must be at least 8 characters long.");
+    expect(sut.isLeft()).toBe(true);
+    expect(userDto.password.value).toBe(
+      "Password must be at least 8 characters long.",
+    );
   });
 });

@@ -5,6 +5,14 @@ export class Left {
     this.#_value = value;
   }
 
+  isLeft() {
+    return true;
+  }
+
+  isRight() {
+    return false;
+  }
+
   get value() {
     return this.#_value;
   }
