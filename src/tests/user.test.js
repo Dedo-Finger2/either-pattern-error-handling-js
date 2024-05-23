@@ -19,4 +19,17 @@ describe("User Entity Class", () => {
     expect(sut.email).toBe(userDto.email);
     expect(sut.password).toBe(userDto.password);
   });
+
+  it("should throw when creating a new user with invalid name", () => {
+    /** @type {UserDto} */
+    const userDto = {
+      name: "a",
+      email: "valid_fake@email.com",
+      password: "fake_valid_password",
+    };
+
+    const sut = () => new User(userDto);
+
+    expect(sut).toThrow();
+  });
 });
