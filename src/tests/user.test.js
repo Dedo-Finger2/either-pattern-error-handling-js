@@ -45,4 +45,17 @@ describe("User Entity Class", () => {
 
     expect(sut).toThrow("Invalid email");
   });
+
+  it("should throw when creating a new user with invalid password", () => {
+    /** @type {UserDto} */
+    const userDto = {
+      name: "fake_valid_name",
+      email: "valid_fake@email.com",
+      password: "123",
+    };
+
+    const sut = () => new User(userDto);
+
+    expect(sut).toThrow("Password must be at least 8 characters long.");
+  });
 });
