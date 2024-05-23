@@ -30,6 +30,19 @@ describe("User Entity Class", () => {
 
     const sut = () => new User(userDto);
 
-    expect(sut).toThrow();
+    expect(sut).toThrow("Name must have at least 3 characters.");
+  });
+
+  it("should throw when creating a new user with invalid email", () => {
+    /** @type {UserDto} */
+    const userDto = {
+      name: "fake_valid_name",
+      email: "invalid_fake_email",
+      password: "fake_valid_password",
+    };
+
+    const sut = () => new User(userDto);
+
+    expect(sut).toThrow("Invalid email");
   });
 });
