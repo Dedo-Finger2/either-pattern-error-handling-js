@@ -1,4 +1,4 @@
-import { Left, Right } from "./../../../../utils";
+import { Left, Right } from "@/utils";
 
 /** @typedef {Left|Right} EitherLeftOrRight */
 
