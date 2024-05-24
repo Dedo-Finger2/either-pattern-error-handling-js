@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Left } from "../../../utils";
+import { Left, Right } from "../../../utils";
 import { Email } from "../value-objects/user/email";
 import { Name } from "../value-objects/user/name";
 import { Password } from "../value-objects/user/password";
@@ -24,7 +24,7 @@ export class User {
 
   /**
    * @param {userDto} userDto
-   * @returns {Left|User}
+   * @returns {Left|Right}
    */
   static build(userDto) {
     const hasInvalidData = Object.values(userDto).some((value) =>
@@ -33,6 +33,6 @@ export class User {
     if (hasInvalidData) {
       return new Left("Invalid user data.");
     }
-    return new User(userDto);
+    return new Right(new User(userDto));
   }
 }

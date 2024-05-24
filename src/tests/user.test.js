@@ -4,7 +4,7 @@ import { Name } from "../core/domain/value-objects/user/name.js";
 import { Email } from "../core/domain/value-objects/user/email.js";
 import { Password } from "../core/domain/value-objects/user/password.js";
 
-/** @typedef {({ name: string, email: Email, password: string })} UserDto  */
+/** @typedef {({ name: Name, email: Email, password: Password })} UserDto  */
 
 describe("User Entity Class", () => {
   it("should create a new user when valid data is passed", () => {
@@ -14,15 +14,15 @@ describe("User Entity Class", () => {
       email: Email.create({ email: "fakevalid@email.com" }),
       password: Password.create({ password: "fake_valid_password" }),
     };
-    const sut = User.build(userDto);
+    const sutOrError = User.build(userDto);
 
     expect(userDto.email.isRight()).toBe(true);
     expect(userDto.name.isRight()).toBe(true);
     expect(userDto.password.isRight()).toBe(true);
-    expect(sut).toBeInstanceOf(User);
-    expect(sut.name).toBe(userDto.name.value);
-    expect(sut.email).toBe(userDto.email.value);
-    expect(sut.password).toBe(userDto.password.value);
+    expect(sutOrError.value).toBeInstanceOf(User);
+    expect(sutOrError.value.name).toBe(userDto.name.value);
+    expect(sutOrError.value.email).toBe(userDto.email.value);
+    expect(sutOrError.value.password).toBe(userDto.password.value);
   });
 
   it("should throw when creating a new user with invalid name", () => {
@@ -32,9 +32,9 @@ describe("User Entity Class", () => {
       email: Email.create({ email: "fakevalid@email.com" }),
       password: Password.create({ password: "fake_valid_password" }),
     };
-    const sut = User.build(userDto);
+    const sutOrError = User.build(userDto);
 
-    expect(sut.isLeft()).toBe(true);
+    expect(sutOrError.isLeft()).toBe(true);
     expect(userDto.name.value).toBe("Name must have at least 3 characters.");
   });
 
@@ -45,9 +45,9 @@ describe("User Entity Class", () => {
       email: Email.create({ email: "fakevalidemail.com" }),
       password: Password.create({ password: "fake_valid_password" }),
     };
-    const sut = User.build(userDto);
+    const sutOrError = User.build(userDto);
 
-    expect(sut.isLeft()).toBe(true);
+    expect(sutOrError.isLeft()).toBe(true);
     expect(userDto.email.value).toBe("Invalid Email.");
   });
 
@@ -58,9 +58,9 @@ describe("User Entity Class", () => {
       email: Email.create({ email: "fakevalid@email.com" }),
       password: Password.create({ password: "123" }),
     };
-    const sut = User.build(userDto);
+    const sutOrError = User.build(userDto);
 
-    expect(sut.isLeft()).toBe(true);
+    expect(sutOrError.isLeft()).toBe(true);
     expect(userDto.password.value).toBe(
       "Password must be at least 8 characters long.",
     );
