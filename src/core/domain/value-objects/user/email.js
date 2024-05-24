@@ -1,3 +1,4 @@
+import { InvalidEmailError } from "@/errors/user";
 import { Left, Right } from "@/utils";
 
 /** @type {import("@/utils/index").Either} */
@@ -12,11 +13,11 @@ export class Email {
 
   /**
    * @param {{ email: string }}
-   * @returns {Either<Left<string>, Right<Email>>}
+   * @returns {Either<Left<InvalidEmailError>, Right<Email>>}
    */
   static create({ email }) {
     if (!Email.#isEmailAValidEmail({ email }))
-      return new Left("Invalid Email.");
+      return new Left(new InvalidEmailError());
     return new Right(new Email(email));
   }
 

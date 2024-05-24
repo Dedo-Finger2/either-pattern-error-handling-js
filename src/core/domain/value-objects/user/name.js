@@ -1,3 +1,4 @@
+import { ShortUserNameLengthError } from "@/errors/user";
 import { Left, Right } from "@/utils";
 
 /** @type {import("@/utils/index").Either} */
@@ -12,11 +13,11 @@ export class Name {
 
   /**
    * @param {{ name: string }}
-   * @returns {Either<Left<string>, Right<Name>>}
+   * @returns {Either<Left<ShortUserNameLengthError>, Right<Name>>}
    */
   static create({ name }) {
     if (!Name.#doesNameHasAtLeastThreeCharacters({ name }))
-      return new Left("Name must have at least 3 characters.");
+      return new Left(new ShortUserNameLengthError());
     return new Right(new Name(name));
   }
 

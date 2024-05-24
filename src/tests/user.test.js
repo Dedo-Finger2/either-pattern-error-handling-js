@@ -35,7 +35,10 @@ describe("User Entity Class", () => {
     const sutOrError = User.build(userDto);
 
     expect(sutOrError.isLeft()).toBe(true);
-    expect(userDto.name.value).toBe("Name must have at least 3 characters.");
+    expect(userDto.name.isLeft()).toBe(true);
+    expect(userDto.name.value.message).toBe(
+      "ERROR: Name is too short. Must be at least 3 characters long.",
+    );
   });
 
   it("should throw when creating a new user with invalid email", () => {
@@ -48,7 +51,8 @@ describe("User Entity Class", () => {
     const sutOrError = User.build(userDto);
 
     expect(sutOrError.isLeft()).toBe(true);
-    expect(userDto.email.value).toBe("Invalid Email.");
+    expect(userDto.email.isLeft()).toBe(true);
+    expect(userDto.email.value.message).toBe("ERROR: Invalid email format.");
   });
 
   it("should throw when creating a new user with invalid password", () => {
@@ -61,8 +65,9 @@ describe("User Entity Class", () => {
     const sutOrError = User.build(userDto);
 
     expect(sutOrError.isLeft()).toBe(true);
-    expect(userDto.password.value).toBe(
-      "Password must be at least 8 characters long.",
+    expect(userDto.password.isLeft()).toBe(true);
+    expect(userDto.password.value.message).toBe(
+      "ERROR: Password is too short. Must be at least 8 characters long.",
     );
   });
 });

@@ -3,6 +3,7 @@ import { Left, Right } from "@/utils";
 import { Email } from "@/core/domain/value-objects/user/email.js";
 import { Name } from "@/core/domain/value-objects/user/name.js";
 import { Password } from "@/core/domain/value-objects/user/password.js";
+import { InvalidUserDataError } from "@/errors/user";
 
 /** @typedef {({ name: Name, email: Email, password: Password })} UserDto  */
 /** @type {import("@/utils/index").EitherLeftOrRight} */
@@ -30,14 +31,14 @@ export class User {
 
   /**
    * @param {UserDto} userDto
-   * @returns {Either<Left<string>, Right<User>>}
+   * @returns {Either<Left<InvalidUserDataError>, Right<User>>}
    */
   static build(userDto) {
     const hasInvalidData = Object.values(userDto).some((value) =>
       value.isLeft(),
     );
     if (hasInvalidData) {
-      return new Left("Invalid user data.");
+      return new Left(new InvalidUserDataError());
     }
     return new Right(new User(userDto));
   }

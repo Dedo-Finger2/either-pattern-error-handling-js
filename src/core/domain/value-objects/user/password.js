@@ -1,3 +1,4 @@
+import { ShortPasswordLengthError } from "@/errors/user";
 import { Left, Right } from "@/utils";
 
 /** @type {import("@/utils/index").Either} */
@@ -12,11 +13,11 @@ export class Password {
 
   /**
    * @param {{ password: string }}
-   * @returns {Either<Left<string>, Right<Password>>}
+   * @returns {Either<Left<ShortPasswordLengthError>, Right<Password>>}
    */
   static create({ password }) {
     if (!Password.#doesPasswordIsAtLeastEightCharactersLong({ password }))
-      return new Left("Password must be at least 8 characters long.");
+      return new Left(new ShortPasswordLengthError());
     return new Right(new Password(password));
   }
 
