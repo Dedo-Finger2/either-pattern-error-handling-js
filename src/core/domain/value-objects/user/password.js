@@ -1,6 +1,6 @@
-import { Left, Right } from "../../../../utils";
+import { Left, Right } from "@/utils";
 
-/** @typedef {Left|Right} EitherLeftOrRight */
+/** @typedef {import("@/utils/index").EitherLeftOrRight} EitherLeftOrRight */
 
 export class Password {
   /** @type {string} */
@@ -11,7 +11,7 @@ export class Password {
   }
 
   /**
-   * @param {string} password
+   * @param {{ password: string }}
    * @returns {EitherLeftOrRight}
    */
   static create({ password }) {
@@ -21,13 +21,16 @@ export class Password {
   }
 
   /**
-   * @param {string} password
+   * @param {{ password: string }} password
    * @returns {boolean}
    */
   static #doesPasswordIsAtLeastEightCharactersLong({ password }) {
     return password.length >= 8;
   }
 
+  /**
+   * @returns {string}
+   */
   get value() {
     return this.#_password;
   }

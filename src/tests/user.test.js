@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { User } from "./../core/domain/entities/user.js";
-import { Name } from "../core/domain/value-objects/user/name.js";
-import { Email } from "../core/domain/value-objects/user/email.js";
-import { Password } from "../core/domain/value-objects/user/password.js";
+import { User } from "@/core/domain/entities/user.js";
+import { Name } from "@/core/domain/value-objects/user/name.js";
+import { Email } from "@/core/domain/value-objects/user/email.js";
+import { Password } from "@/core/domain/value-objects/user/password.js";
 
-/** @typedef {({ name: Name, email: Email, password: Password })} UserDto  */
+/** @typedef {import("@/core/domain/entities/user.js").UserDto} UserDto */
 
 describe("User Entity Class", () => {
   it("should create a new user when valid data is passed", () => {

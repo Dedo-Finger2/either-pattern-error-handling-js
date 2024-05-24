@@ -1,6 +1,6 @@
-import { Left, Right } from "./../../../../utils";
+import { Left, Right } from "@/utils";
 
-/** @typedef {Left|Right} EitherLeftOrRight */
+/** @typedef {import("@/utils/index").EitherLeftOrRight} EitherLeftOrRight */
 
 export class Name {
   /** @type {string} */
@@ -11,7 +11,7 @@ export class Name {
   }
 
   /**
-   * @param {string} name
+   * @param {{ name: string }}
    * @returns {EitherLeftOrRight}
    */
   static create({ name }) {
@@ -21,13 +21,16 @@ export class Name {
   }
 
   /**
-   * @param {string} name
+   * @param {{ name: string }}
    * @returns {boolean}
    */
   static #doesNameHasAtLeastThreeCharacters({ name }) {
     return name.length >= 3;
   }
 
+  /**
+   * @returns {string}
+   */
   get value() {
     return this.#_name;
   }

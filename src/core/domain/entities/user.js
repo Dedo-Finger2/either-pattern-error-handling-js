@@ -1,15 +1,20 @@
 /* eslint-disable no-unused-vars */
-import { Left, Right } from "../../../utils";
-import { Email } from "../value-objects/user/email";
-import { Name } from "../value-objects/user/name";
-import { Password } from "../value-objects/user/password";
+import { Left, Right } from "@/utils";
+import { Email } from "@/core/domain/value-objects/user/email.js";
+import { Name } from "@/core/domain/value-objects/user/name.js";
+import { Password } from "@/core/domain/value-objects/user/password.js";
 
 /** @typedef {({ name: Name, email: Email, password: Password })} UserDto  */
+/** @typedef {import("@/utils/index").EitherLeftOrRight} EitherLeftOrRight */
 
 export class User {
+  /** @type {string} */
   name;
+  /** @type {string} */
   email;
+  /** @type {string} */
   password;
+  /** @type {Date} */
   createdAt;
 
   /**
@@ -24,7 +29,7 @@ export class User {
 
   /**
    * @param {userDto} userDto
-   * @returns {Left|Right}
+   * @returns {EitherLeftOrRight}
    */
   static build(userDto) {
     const hasInvalidData = Object.values(userDto).some((value) =>

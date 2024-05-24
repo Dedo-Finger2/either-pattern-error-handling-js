@@ -1,7 +1,5 @@
 import { Left, Right } from "@/utils";
 
-/** @typedef {Left|Right} EitherLeftOrRight */
-
 export class Email {
   /** @type {string} */
   #_email;
@@ -11,7 +9,8 @@ export class Email {
   }
 
   /**
-   * @returns {EitherLeftOrRight}
+   * @param {{ email: string }}
+   * @returns {import("@/utils/index").EitherLeftOrRight}
    */
   static create({ email }) {
     if (!Email.#isEmailAValidEmail({ email }))
@@ -19,10 +18,17 @@ export class Email {
     return new Right(new Email(email).value);
   }
 
+  /**
+   * @param {{ email: string }}
+   * @returns {boolean}
+   */
   static #isEmailAValidEmail({ email }) {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
   }
 
+  /**
+   * @returns {string}
+   */
   get value() {
     return this.#_email;
   }
