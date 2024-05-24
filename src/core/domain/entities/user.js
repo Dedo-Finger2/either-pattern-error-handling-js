@@ -5,7 +5,8 @@ import { Name } from "@/core/domain/value-objects/user/name.js";
 import { Password } from "@/core/domain/value-objects/user/password.js";
 
 /** @typedef {({ name: Name, email: Email, password: Password })} UserDto  */
-/** @typedef {import("@/utils/index").EitherLeftOrRight} EitherLeftOrRight */
+/** @type {import("@/utils/index").EitherLeftOrRight} */
+/** @type {import("@/utils/index").Either} */
 
 export class User {
   /** @type {string} */
@@ -28,8 +29,8 @@ export class User {
   }
 
   /**
-   * @param {userDto} userDto
-   * @returns {EitherLeftOrRight}
+   * @param {UserDto} userDto
+   * @returns {Either<Left<string>, Right<User>>}
    */
   static build(userDto) {
     const hasInvalidData = Object.values(userDto).some((value) =>

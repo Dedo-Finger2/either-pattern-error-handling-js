@@ -1,6 +1,6 @@
 import { Left, Right } from "@/utils";
 
-/** @typedef {import("@/utils/index").EitherLeftOrRight} EitherLeftOrRight */
+/** @type {import("@/utils/index").Either} */
 
 export class Name {
   /** @type {string} */
@@ -12,12 +12,12 @@ export class Name {
 
   /**
    * @param {{ name: string }}
-   * @returns {EitherLeftOrRight}
+   * @returns {Either<Left<string>, Right<Name>>}
    */
   static create({ name }) {
     if (!Name.#doesNameHasAtLeastThreeCharacters({ name }))
       return new Left("Name must have at least 3 characters.");
-    return new Right(new Name(name).value);
+    return new Right(new Name(name));
   }
 
   /**

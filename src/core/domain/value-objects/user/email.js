@@ -1,5 +1,7 @@
 import { Left, Right } from "@/utils";
 
+/** @type {import("@/utils/index").Either} */
+
 export class Email {
   /** @type {string} */
   #_email;
@@ -10,12 +12,12 @@ export class Email {
 
   /**
    * @param {{ email: string }}
-   * @returns {import("@/utils/index").EitherLeftOrRight}
+   * @returns {Either<Left<string>, Right<Email>>}
    */
   static create({ email }) {
     if (!Email.#isEmailAValidEmail({ email }))
       return new Left("Invalid Email.");
-    return new Right(new Email(email).value);
+    return new Right(new Email(email));
   }
 
   /**

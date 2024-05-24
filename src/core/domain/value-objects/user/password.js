@@ -1,6 +1,6 @@
 import { Left, Right } from "@/utils";
 
-/** @typedef {import("@/utils/index").EitherLeftOrRight} EitherLeftOrRight */
+/** @type {import("@/utils/index").Either} */
 
 export class Password {
   /** @type {string} */
@@ -12,12 +12,12 @@ export class Password {
 
   /**
    * @param {{ password: string }}
-   * @returns {EitherLeftOrRight}
+   * @returns {Either<Left<string>, Right<Password>>}
    */
   static create({ password }) {
     if (!Password.#doesPasswordIsAtLeastEightCharactersLong({ password }))
       return new Left("Password must be at least 8 characters long.");
-    return new Right(new Password(password).value);
+    return new Right(new Password(password));
   }
 
   /**
